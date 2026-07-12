@@ -1,6 +1,7 @@
 using cuteDVDCore.Services;
 using cuteDVDCore.Services.Interfaces;
 using cuteDVDNet.Mapping;
+using cuteDVDNet.Middlewares;
 using cuteDVDNet.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<MiddlewareExceptioncs>();
+
+#if DEBUG
+app.UseMiddleware<InformationMiddleware>();
+#endif
 
 app.MapControllers();
 

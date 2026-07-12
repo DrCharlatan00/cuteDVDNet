@@ -19,7 +19,7 @@ namespace cuteDVDNet.Controllers
             return Ok(Files);
         }
 
-        [HttpGet("/full")]
+        [HttpGet("full")]
         public async Task<IActionResult> GetFilesAsync()
         {
             var Files = await driveFileService.GetFilesList();
@@ -27,14 +27,14 @@ namespace cuteDVDNet.Controllers
             return Ok(Files);
         }
 
-        [HttpGet("/stream")]
+        [HttpGet("stream")]
         public async Task<IActionResult> GetStreamFile(string name) {
             var StreamFile = await driveFileService.StreamFileAsync(name);
             if (StreamFile is null) return NotFound();
             return File(StreamFile, "application/octet-stream", true);
         }
 
-        [HttpGet("/dto")]
+        [HttpGet("dto")]
         public async Task<IActionResult> GetStreamFile(DTOFileSearch model)
         {
             var StreamFile = await driveFileService.StreamFileAsync(model);

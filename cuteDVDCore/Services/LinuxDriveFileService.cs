@@ -10,11 +10,25 @@ namespace cuteDVDCore.Services
 {
     public class LinuxDriveFileService : IDriveFileService
     {
+        public LinuxDriveFileService()
+        {
+            Console.WriteLine("Mount pls disk in : /media/cdrom0 ");
+        }
         public void CheckDisk()
         {
             try
             {
                 var mounts = File.ReadAllLines("/proc/mounts");
+                foreach (var line in mounts)
+                {
+
+                    if (line.StartsWith("/dev/sr"))
+                    {
+                        var exists = Directory.Exists("/media/cdrom0") &&
+                        Directory.EnumerateFileSystemEntries("/media/cdrom0").Any();
+                        if (!exists) { throw new ExceptionDriveNotReady("Drive not ready"); }
+                    }
+                }
             }
             catch
             {
@@ -76,18 +90,18 @@ namespace cuteDVDCore.Services
                 true
                 );
 
-            
 
-            
 
-        //    return Task.FromResult<Stream>(
-        //new FileStream(
-        //    fileModel.Path,
-        //    FileMode.Open,
-        //    FileAccess.Read,
-        //    FileShare.Read,
-        //    4096,
-        //    useAsync: true));
+
+
+            //    return Task.FromResult<Stream>(
+            //new FileStream(
+            //    fileModel.Path,
+            //    FileMode.Open,
+            //    FileAccess.Read,
+            //    FileShare.Read,
+            //    4096,
+            //    useAsync: true));
         }
 
         public async Task<Stream?> GetFileStream(string fileName)
@@ -104,7 +118,8 @@ namespace cuteDVDCore.Services
             {
                 throw new Exception($"{nameof(GetFileStream)} catch unexpect Exception \n Message: {ex.Message}");
             }
-            await foreach (var file in GetListFiles()) {
+            await foreach (var file in GetListFiles())
+            {
                 if (file.Name == fileName) return
                 new FileStream(
                     file.Path,
@@ -131,32 +146,31 @@ namespace cuteDVDCore.Services
             {
                 throw new Exception($"{nameof(GetListFiles)} catch unexpect Exception \n Message: {ex.Message}");
             }
-            
-            var mounts = File.ReadAllLines("/proc/mounts");
-            foreach (var line in mounts)
+
+
+            var filesOnDrive = new List<ModelDVDFiles>();
+            foreach (var file in Directory.EnumerateFileSystemEntries(
+                  "/media/cdrom0",
+                  "*",
+                  SearchOption.AllDirectories))
             {
+                var info = new FileInfo(file);
 
-                if (line.StartsWith("/dev/sr"))
-                {
-                    var filesOnDrive = new List<ModelDVDFiles>();
-                    foreach (var file in Directory.EnumerateDirectories(
-                        "/dev/sr",
-                        "*",
-                        SearchOption.AllDirectories)) {
-                        var info = new FileInfo(file);
+                if (!File.Exists(file)) continue;
 
-                        yield return new ModelDVDFiles(
-                   info.Name,
-                   info.Extension,
-                   FormatSize(info.Length),
-                   info.FullName);
-                        await Task.Yield();
-                    }
-                    
+                yield return new ModelDVDFiles(
+                 info.Name,
+                 info.Extension,
+                 FormatSize(info.Length),
+                 info.FullName);
 
-                }
+                await Task.Yield();
             }
-            
+
+
+
+
+
         }
     }
 }
