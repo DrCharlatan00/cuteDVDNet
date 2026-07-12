@@ -31,7 +31,7 @@ namespace cuteDVDNet.Controllers
         public async Task<IActionResult> GetStreamFile(string name) {
             var StreamFile = await driveFileService.StreamFileAsync(name);
             if (StreamFile is null) return NotFound();
-            return Ok(StreamFile);
+            return File(StreamFile, "application/octet-stream", true);
         }
 
         [HttpGet("/dto")]
@@ -39,7 +39,7 @@ namespace cuteDVDNet.Controllers
         {
             var StreamFile = await driveFileService.StreamFileAsync(model);
             if (StreamFile is null) return NotFound();
-            return Ok(StreamFile);
+            return File(StreamFile, "application/octet-stream",true);
         }
     }
 }
