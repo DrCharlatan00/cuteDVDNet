@@ -22,7 +22,7 @@ if (OperatingSystem.IsWindows())
     builder.Services.AddScoped<IDriveFileService, WinDriveFileService>();
 
 if (OperatingSystem.IsLinux())
-    builder.Services.AddScoped<IDriveFileService, WinDriveFileService>();
+    builder.Services.AddScoped<IDriveFileService, LinuxDriveFileService>();
 
 builder.Services.AddAutoMapper(cfg => {
     cfg.AddProfile<MappingFiles>();
