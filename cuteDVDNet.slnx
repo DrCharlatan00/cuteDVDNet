@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="cuteDVDCore/cuteDVDCore.csproj" />
+  <Project Path="cuteDVDNet/cuteDVDNet.csproj" />
+</Solution>

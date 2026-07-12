@@ -1,0 +1,6 @@
+@cuteDVDNet_HostAddress = http://localhost:5198
+
+GET {{cuteDVDNet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
