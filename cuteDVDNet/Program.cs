@@ -2,6 +2,8 @@ using cuteDVDCore.Services;
 using cuteDVDCore.Services.Interfaces;
 using cuteDVDNet.Mapping;
 using cuteDVDNet.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,5 +44,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/", () => "live");
 
 app.Run();
