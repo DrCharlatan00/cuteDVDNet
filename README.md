@@ -5,4 +5,4 @@ Download the release package and run it. Alternatively, you can build it from so
 - Download the source code
 - Navigate to the /cuteDVDNet directory
 - Run `dotnet run -c Release`
-You can also download a UI shell (interface) [ -> click <-] https://github.com/DrCharlatan00/cuteDVDDesktop from this link __ or create your own
+You can also download a UI shell (interface) from this link [ -> click <-] (https://github.com/DrCharlatan00/cuteDVDDesktop) or create your own
