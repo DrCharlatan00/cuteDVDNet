@@ -44,7 +44,7 @@ namespace cuteDVDNet.Controllers
         }
 
         [HttpGet("audio")]
-        public  IAsyncEnumerable<RDTOAudioCD> GetAudioCDsParalel () {
+        public  IAsyncEnumerable<RDTOAudioCD> GetAudioCDs () {
             return driveFileService.GetRDTOAudiosAsync();
         }
     }

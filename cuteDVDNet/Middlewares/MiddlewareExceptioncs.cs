@@ -21,7 +21,8 @@ namespace cuteDVDNet.Middlewares
                 {
                     ExceptionDriveFuncError => new ExceptionReturn("Function get error when try read disk", StatusCodes.Status503ServiceUnavailable),
                     ExceptionDriveNotReady => new ExceptionReturn("Drive not have DVD or CD Disk", StatusCodes.Status503ServiceUnavailable),
-                    NotImplementedException => new ExceptionReturn("Method not work now<3", StatusCodes.Status405MethodNotAllowed),
+                    NotImplementedException => new ExceptionReturn("Method not work now <3", StatusCodes.Status405MethodNotAllowed),
+                    NullReferenceException => new ExceptionReturn ("Not found Cd Rom or not files in cd, NULL", StatusCodes.Status503ServiceUnavailable),
                     _ => new ExceptionReturn("Unknown error", StatusCodes.Status503ServiceUnavailable)
                 };
 

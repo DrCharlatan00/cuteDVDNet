@@ -71,8 +71,6 @@ namespace cuteDVDNet.Services
                 );
 
                 await Task.Yield();
-
-
             }
         }
 
