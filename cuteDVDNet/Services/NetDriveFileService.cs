@@ -3,6 +3,8 @@ using cuteDVDCore.Models;
 using cuteDVDCore.Services.Interfaces;
 using cuteDVDNet.Models;
 using cuteDVDNet.Models.RDTO;
+using Microsoft.AspNetCore.Components.Forms.Mapping;
+using Microsoft.VisualBasic;
 
 namespace cuteDVDNet.Services
 {
@@ -48,6 +50,30 @@ namespace cuteDVDNet.Services
             if (file is null) return null;
             return file;
 
+        }
+
+        public async IAsyncEnumerable<RDTOAudioCD> GetRDTOAudiosAsync() {
+            await foreach (var item in driveService.GetListFiles())
+            {
+                if (item.Type != ".mp3") continue;
+                using var file = TagLib.File.Create(item.Path);
+
+                yield return new RDTOAudioCD
+                (
+                    Name: file.Tag.Title ?? "N/A",
+                    Type:  item.Type,
+                    Artist:  file.Tag.Artists is { Length: > 0 } ? string.Join(", ",file.Tag.Artists) : "N?A",
+                    Album: file.Tag.Album ?? "N/A",
+                    Duration:  file.Properties.Duration.ToString(@"mm\:ss"),
+                    FileName: item.Name,
+                    NumberInAlbum:  Convert.ToInt16(file.Tag.Track),
+                    Path: item.Path 
+                );
+
+                await Task.Yield();
+
+
+            }
         }
 
         private RDTOFileFromCard Map(ModelDVDFiles model) => mapper.Map<RDTOFileFromCard>(model);

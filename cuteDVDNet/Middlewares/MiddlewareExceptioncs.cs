@@ -25,7 +25,7 @@ namespace cuteDVDNet.Middlewares
                     _ => new ExceptionReturn("Unknown error", StatusCodes.Status503ServiceUnavailable)
                 };
 
-                logger.LogTrace(ex,ex.Message);
+                logger.LogError(ex,ex.Message);
                 if (exceptionReturn.StatusCode == StatusCodes.Status503ServiceUnavailable)
                     await hub.Clients.All.SendAsync(
                     "DiskError",

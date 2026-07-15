@@ -10,5 +10,6 @@ namespace cuteDVDNet.Services
         Task<IEnumerable<ModelDVDFiles>?> GetFilesList();
         Task<Stream?> StreamFileAsync(DTOFileSearch DTOFile);
         Task<Stream?> StreamFileAsync(string Name);
+        IAsyncEnumerable<RDTOAudioCD> GetRDTOAudiosAsync();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using cuteDVDNet.Models;
+using cuteDVDNet.Models.RDTO;
 using cuteDVDNet.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,11 @@ namespace cuteDVDNet.Controllers
             var StreamFile = await driveFileService.StreamFileAsync(model);
             if (StreamFile is null) return NotFound();
             return File(StreamFile, "application/octet-stream",true);
+        }
+
+        [HttpGet("audio")]
+        public  IAsyncEnumerable<RDTOAudioCD> GetAudioCDsParalel () {
+            return driveFileService.GetRDTOAudiosAsync();
         }
     }
 }
